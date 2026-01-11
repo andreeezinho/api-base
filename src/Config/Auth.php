@@ -2,8 +2,9 @@
 
 namespace App\Config;
 
-use App\Request\Request;
-use App\Config\JWT;
+use App\Http\Request\Request;
+use App\Http\Request\Response;
+use App\Infra\Services\JWT\JWT;
 
 use App\Repositories\User\UserRepository;
 
@@ -13,8 +14,7 @@ class Auth {
     protected $userRepository;
 
     public function __construct(){
-        $this->request = new Request();
-        $this->userRepository = new UserRepository();
+        // $this->userRepository = new UserRepository();
     }
 
     public function login($user){
@@ -45,17 +45,17 @@ class Auth {
         $userValidate = JWT::validateToken($token);
 
         if(is_null($userValidate)){
-            return $this->request->respJson(['error' => 'Usuário não autenticado'], 401);
+            return Response::respJson(['error' => 'Usuário não autenticado'], 401);
         }
 
         //var_dump($userValidate);
         $user = $this->userRepository->findById((int)$userValidate['code']);
 
         if(is_null($userValidate)){
-            return $this->request->respJson(['error' => 'Usuário não encontrado'], 404);
+            return Response::respJson(['error' => 'Usuário não encontrado'], 404);
         }
 
-        return $this->request->respJson(['data' => $user]);
+        return Response::respJson(['data' => $user]);
     }
 
 }

@@ -3,7 +3,8 @@
 namespace App\Config;
 
 use App\Config\Auth;
-use App\Request\Request;
+use App\Http\Request\Request;
+use App\Http\Request\Response;
 
 class Router {
 
@@ -39,7 +40,7 @@ class Router {
 
                 if(preg_match($pattern, $normalizedRequestUri, $matches)){
                     if(!is_null($route['auth']) && !$route['auth']->check()){
-                        return $request->respJson(['error' => 'Usuário não está logado'], 500);
+                        return Response::respJson(['error' => 'Usuário não está logado'], 500);
                     }
 
                     array_shift($matches);
@@ -49,7 +50,7 @@ class Router {
         }
 
         http_response_code(404);
-        $request->respJson(['error' => 'Rota não encontrada'], 404);
+        Response::respJson(['error' => 'Rota não encontrada'], 404);
     }
 
     private function normalizePath($path){

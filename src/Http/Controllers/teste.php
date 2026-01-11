@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Http\Controllers;
 
-use App\Request\Request;
+use App\Http\Request\Request;
 
 class teste {
 

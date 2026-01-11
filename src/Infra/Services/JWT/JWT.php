@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Config;
+namespace App\Infra\Services\JWT;
 
 class JWT { 
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Request;
+namespace App\Http\Request;
 
 class Request{
 
@@ -51,13 +51,6 @@ class Request{
 
     public function getParams($key) : ?array {
         return $this->queryParams[$key] ?? $this->bodyParams[$key] ?? null;
-    }
-
-    public function respJson(array $data, int $status = 200) : void {
-        http_response_code($status);
-        header('Content-Type: application/json');
-        echo json_encode($data);
-        exit();
     }
 
 }

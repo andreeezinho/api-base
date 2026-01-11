@@ -5,7 +5,7 @@ use App\Config\Auth;
 use App\Config\Container;
 use App\Config\DependencyProvider;
 
-use App\Controllers\teste;
+use App\Http\Controllers\teste;
 
 $router = new Router();
 $auth = new Auth();
@@ -15,6 +15,6 @@ $dependencyProvider->register();
 
 $teste = $container->get(teste::class);
 
-$router->create("GET", "/testando", [$teste, 'index'], $auth);
+$router->create("GET", "/testando", [$teste, 'index']);
 
 return $router;
