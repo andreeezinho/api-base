@@ -1,0 +1,9 @@
+/.vscode/
+/.idea/
+*.swp
+*.swo
+*~
+
+/.env
+
+/vendor/
