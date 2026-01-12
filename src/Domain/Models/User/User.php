@@ -12,12 +12,13 @@ class User {
 
     public int $id;
     public ?string $uuid;
+    public string $usuario;
     public string $nome;
     public string $email;
     public string $cpf;
     public ?string $telefone;
     public ?string $senha;
-    public string $funcao;
+    // public string $funcao;
     public int $ativo;
     public ?string $icone;
     public ?string $created_at;

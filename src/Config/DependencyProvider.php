@@ -2,6 +2,9 @@
 
 namespace App\Config;
 
+use App\Domain\Repositories\User\UserRepositoryInterface;
+use App\Infra\Persistence\User\UserRepository;
+
 class DependencyProvider {
 
     private $container;
@@ -12,11 +15,11 @@ class DependencyProvider {
 
     public function register(){
 
-        // $this->container
-        //     ->set(
-        //         IExemplo::class,
-        //         new ExemploRepository()
-        //     );
+        $this->container
+            ->set(
+                UserRepositoryInterface::class,
+                new UserRepository()
+            );
 
     }
 

@@ -49,7 +49,6 @@ class Router {
             }
         }
 
-        http_response_code(404);
         Response::respJson(['error' => 'Rota não encontrada'], 404);
     }
 

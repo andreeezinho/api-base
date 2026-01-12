@@ -6,7 +6,7 @@ use PDO;
 
 trait CrudTrait {
 
-    public function findAll(array $filters = []){
+    public function findAll(array $filters = [], string $order = 'created_at'){
         $sql = "SELECT * FROM " . $this->model->getTable();
 
         $params = [];
@@ -16,6 +16,8 @@ trait CrudTrait {
             $conditions = $this->setWhereClause($filters, $params);
             $sql .= " WHERE " . $conditions;
         }
+
+        $sql .= " ORDER BY {$order} ASC";
 
         $stmt = $this->conn->prepare($sql);
 
@@ -86,7 +88,7 @@ trait CrudTrait {
         $conditions = [];
 
         foreach ($criteria as $field => $value) {
-            if ($field === 'name') {
+            if ($field === 'nome') {
                 $conditions[] = "$field LIKE ?";
                 $params[] = "%$value%";
                 continue;

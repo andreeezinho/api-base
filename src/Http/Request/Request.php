@@ -14,6 +14,9 @@ class Request{
     public function __construct(){
         $this->method = $_SERVER['REQUEST_METHOD'];
         $this->uri = $_SERVER['REQUEST_URI'];
+        $this->queryParams = $_GET;
+        $this->bodyParams = $_POST;
+        $this->fileParams = $_FILES;
     }
 
     public function getMethod(){
@@ -47,6 +50,18 @@ class Request{
         $token = str_replace('Bearer ', '', $tokenHeader);
 
         return $token ?? null;
+    }
+
+    public function getQueryParams(){
+        return $this->queryParams;
+    }
+
+    public function getBodyParams(){
+        return $this->bodyParams;
+    }
+
+    public function getFileParams(){
+        return $this->fileParams;
     }
 
     public function getParams($key) : ?array {
