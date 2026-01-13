@@ -23,7 +23,32 @@ class UserRepository implements UserRepositoryInterface {
         $this->model = new User();
     }
 
-    public function login(string $usuario, string $senha){}
+    public function login(string $email, string $senha){
+        $sql = "SELECT * FROM 
+                {$this->model->getTable()}
+            WHERE
+                email = :email
+            AND
+                ativo = 1
+        ";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->execute([
+            'email' => $email
+        ]);
+
+        $stmt->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, self::CLASS_NAME);
+        $user = $stmt->fetch();
+
+        if($user && password_verify($senha, $user->senha)){
+            unset($user->id);
+            unset($user->senha);
+            return $user;
+        }
+
+        return null;
+    }
 
     public function all(array $params = []){
         return $this->findAll($params);

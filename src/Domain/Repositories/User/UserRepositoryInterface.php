@@ -4,7 +4,7 @@ namespace App\Domain\Repositories\User;
 
 interface UserRepositoryInterface {
 
-    public function login(string $usuario, string $senha);
+    public function login(string $email, string $senha);
 
     public function all(array $params);
 

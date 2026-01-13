@@ -29,10 +29,10 @@ trait ValidatorTrait {
         if(strpos($rule, ':') !== false){
             [$ruleName, $param] = explode(':', $rule, 2);
 
-            return $this->ruleName($field, $param);
+            return $this->$ruleName($field, $param);
         }
 
-        return $this->rule($field);
+        return $this->$rule($field);
     } 
 
     protected function required($field){

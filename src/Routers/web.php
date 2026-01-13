@@ -15,6 +15,11 @@ $dependencyProvider->register();
 
 $userController = $container->get(UserController::class);
 
-$router->create("GET", "/usuarios", [$userController, 'index']);
+// - Rotas
+
+//usuarios
+$router->create("POST", "/auth", [$userController, 'login']);
+$router->create("GET", "/me", [$userController, 'profile'], $auth);
+$router->create("GET", "/usuarios", [$userController, 'index'], $auth);
 
 return $router;

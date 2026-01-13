@@ -6,7 +6,7 @@ trait FindTrait {
 
     public function findById($id){
         $stmt = $this->conn->prepare(
-            "SELECT * FROM " . self::TABLE . " WHERE id = :id"
+            "SELECT * FROM " . $this->model->getTable() . " WHERE id = :id"
         );
 
         $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
@@ -24,7 +24,7 @@ trait FindTrait {
 
     public function findByUuid($uuid){
         $stmt = $this->conn->prepare(
-            "SELECT * FROM " . self::TABLE . " WHERE uuid = :uuid"
+            "SELECT * FROM " . $this->model->getTable() . " WHERE uuid = :uuid"
         );
 
         $stmt->execute([':uuid' => $uuid]);
@@ -41,7 +41,7 @@ trait FindTrait {
 
     public function findByUserId($usuarios_id){
         $stmt = $this->conn->prepare(
-            "SELECT * FROM " . self::TABLE . " WHERE usuarios_id = :usuarios_id"
+            "SELECT * FROM " . $this->model->getTable() . " WHERE usuarios_id = :usuarios_id"
         );
 
         $stmt->execute([':$usuarios_id' => $$usuarios_id]);

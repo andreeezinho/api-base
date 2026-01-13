@@ -6,7 +6,7 @@ use App\Http\Request\Request;
 use App\Http\Request\Response;
 use App\Infra\Services\JWT\JWT;
 
-use App\Repositories\User\UserRepository;
+use App\Infra\Persistence\User\UserRepository;
 
 class Auth {
 
@@ -14,17 +14,8 @@ class Auth {
     protected $userRepository;
 
     public function __construct(){
-        // $this->userRepository = new UserRepository();
-    }
-
-    public function login($user){
-        if(is_null($user)){
-            return false;
-        }
-
-        $token = JWT::generateToken((array)$user, 30600);
-
-        return $token;
+        $this->request = new Request();
+        $this->userRepository = new UserRepository();
     }
 
     public function check(){
