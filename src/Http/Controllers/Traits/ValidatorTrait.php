@@ -67,9 +67,6 @@ trait ValidatorTrait {
     }
 
     protected function max($field, $max){
-        if (!isset($this->data[$field])) {
-            return;
-        }
 
         $value = $this->data[$field];
 
@@ -102,7 +99,7 @@ trait ValidatorTrait {
         }
     }
 
-    protected function integer($field){
+    protected function int($field){
         if (!filter_var($this->data[$field], FILTER_VALIDATE_INT)) {
             $this->errors[$field][] = "O campo $field deve ser um número inteiro.";
             return;
@@ -126,6 +123,13 @@ trait ValidatorTrait {
     protected function date($field){
         if (!isset($this->data[$field]) || strtotime($this->data[$field]) === false) {
             $this->errors[$field][] = "O campo $field deve ser uma data válida.";
+            return;
+        }
+    }
+
+    protected function boolean($field){
+        if (!isset($this->data[$field]) || !is_bool($this->data[$field])) {
+            $this->errors[$field][] = "O campo $field deve ser um valor booleano.";
             return;
         }
     }

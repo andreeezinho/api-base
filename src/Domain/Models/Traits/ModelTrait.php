@@ -7,7 +7,7 @@ trait ModelTrait {
     function setFields(array $data) : void {
         foreach($data as $key => $value){
             if(property_exists($this, $key)){
-                $this->key = $value;
+                $this->$key = $value ?? null;
             }
         }
     }

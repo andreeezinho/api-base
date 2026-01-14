@@ -54,7 +54,36 @@ class UserRepository implements UserRepositoryInterface {
         return $this->findAll($params);
     }
 
-    public function create(array $data){}
+    public function create(array $data){
+        if(empty($data)){
+            return null;
+        }
+
+        $user = $this->model->create($data);
+            
+        if(empty($user->senha)){
+            $user->senha = 'senha123';
+        }
+
+        if(empty($user->icone)){
+            $user->icone = 'default.png';
+        }
+
+        $user->senha = password_hash($user->senha, PASSWORD_BCRYPT);
+
+        try {
+            $create = $this->save($user);
+
+            if(!$create){
+                return null;
+            }
+
+            return $this->findByUuid($user->uuid);
+
+        } catch (\Throwable $th) {
+            return null;
+        }
+    }
 
     public function update(array $data, int $id){}
 

@@ -26,7 +26,7 @@ trait CrudTrait {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function create(array $data){
+    public function save($data){
         [$fields, $values] = $this->prepareCreateFields($data);
 
         $strFields = implode(', ', $fields);
@@ -44,7 +44,7 @@ trait CrudTrait {
         return $stmt->execute();
     }
 
-    public function update(array $data, $object){
+    public function edit(array $data, $object){
         if (empty($data) || !$object) {
             return false;
         }
@@ -70,7 +70,7 @@ trait CrudTrait {
         return $stmt->execute();
     }
 
-    public function delete(int $id) : bool {
+    public function destroy(int $id) : bool {
         $sql = "DELETE FROM 
                 {$this->model->getTable()} 
             WHERE 

@@ -90,4 +90,37 @@ class UserController extends Controller{
         ]);
     }
 
+    public function store(Request $request){
+        $data = $request->getBodyParams();
+
+        $validate = $this->validate($data, [
+            'usuario' => 'required|string|max:20',
+            'nome' => 'required|string|max:255',
+            'email' => 'required|email',
+            'cpf' => 'required|string|max:14',
+            'telefone' => 'required|string|max:15',
+            'senha' => 'required|string|min:8',
+            'ativo' => 'max:1'
+        ]);
+
+        if(is_null($validate)){
+            return $this->respJson([
+                'errors' => $this->getErrors()
+            ], 422);
+        }
+
+        $user = $this->userRepository->create($data);
+        
+        if(is_null($user)){
+            return $this->respJson([
+                'message' => 'Erro ao cadastrar usuário'
+            ], 500);
+        }
+
+        return $this->respJson([
+            'message' => 'Cadastro realizado com sucesso',
+            'data' => UserTransformer::transform($user)
+        ], 201);
+    }
+
 }

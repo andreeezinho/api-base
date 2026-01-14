@@ -21,5 +21,6 @@ $userController = $container->get(UserController::class);
 $router->create("POST", "/auth", [$userController, 'login']);
 $router->create("GET", "/me", [$userController, 'profile'], $auth);
 $router->create("GET", "/usuarios", [$userController, 'index'], $auth);
+$router->create("POST", "/usuarios", [$userController, 'store'], $auth);
 
 return $router;

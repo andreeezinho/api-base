@@ -30,23 +30,4 @@ class Auth {
         return true;
     }
 
-    public function user(){
-        $token = $this->request->getHeaders('Authorization');
-
-        $userValidate = JWT::validateToken($token);
-
-        if(is_null($userValidate)){
-            return Response::respJson(['error' => 'Usuário não autenticado'], 401);
-        }
-
-        //var_dump($userValidate);
-        $user = $this->userRepository->findById((int)$userValidate['code']);
-
-        if(is_null($userValidate)){
-            return Response::respJson(['error' => 'Usuário não encontrado'], 404);
-        }
-
-        return Response::respJson(['data' => $user]);
-    }
-
 }
