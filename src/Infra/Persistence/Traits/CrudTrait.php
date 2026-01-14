@@ -44,12 +44,12 @@ trait CrudTrait {
         return $stmt->execute();
     }
 
-    public function edit(array $data, $object){
+    public function edit($data, $object){
         if (empty($data) || !$object) {
             return false;
         }
 
-        [$fields, $params] = $this->prepareUpdatingFields($data, $object);
+        [$fields, $params] = $this->prepareUpdateFields($data, $object);
 
         $strFields = implode(', ', $fields);
 
@@ -121,12 +121,12 @@ trait CrudTrait {
         return [$fields, $params];
     }
 
-    private function prepareUpdateFields(array $data, $object): array {
+    private function prepareUpdateFields($data, $object): array {
         $fields = [];
         $params = [];
 
         foreach ($data as $key => $value) {
-            if (property_exists($object, $key)) {
+            if (property_exists($object, $key) && $key !== 'uuid') {
                 $fields[] = "{$key} = :{$key}";
                 $params[":{$key}"] = $value;
             }

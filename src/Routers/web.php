@@ -22,5 +22,6 @@ $router->create("POST", "/auth", [$userController, 'login']);
 $router->create("GET", "/me", [$userController, 'profile'], $auth);
 $router->create("GET", "/usuarios", [$userController, 'index'], $auth);
 $router->create("POST", "/usuarios", [$userController, 'store'], $auth);
+$router->create("PUT", "/usuarios/{uuid}", [$userController, 'update'], $auth);
 
 return $router;

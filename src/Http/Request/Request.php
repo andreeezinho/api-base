@@ -27,15 +27,16 @@ class Request{
         return $this->uri;
     }
 
-    public function all() : array {
+    public function all() {
         $input = file_get_contents('php://input');
+         
         $data = json_decode($input, true);
 
         $data = match ($this->getMethod()) {
-            'GET' => $_GET,
+            'GET' => $this->getQueryParams(),
             'POST', 'PUT', 'PATCH', 'DELETE' => $data
         };
-
+        
         return is_array($data) ? $data : [];
     }
 

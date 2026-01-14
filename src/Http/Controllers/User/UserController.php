@@ -19,7 +19,7 @@ class UserController extends Controller{
     }
 
     public function login(Request $request){
-        $data = $request->getBodyParams();
+        $data = $request->all();
 
         $validate = $this->validate($data, [
             'email' => 'required|email',
@@ -91,7 +91,7 @@ class UserController extends Controller{
     }
 
     public function store(Request $request){
-        $data = $request->getBodyParams();
+        $data = $request->all();
 
         $validate = $this->validate($data, [
             'usuario' => 'required|string|max:20',
@@ -105,12 +105,13 @@ class UserController extends Controller{
 
         if(is_null($validate)){
             return $this->respJson([
+                'message' => 'Dados inválidos',
                 'errors' => $this->getErrors()
             ], 422);
         }
 
         $user = $this->userRepository->create($data);
-        
+
         if(is_null($user)){
             return $this->respJson([
                 'message' => 'Erro ao cadastrar usuário'
@@ -120,6 +121,47 @@ class UserController extends Controller{
         return $this->respJson([
             'message' => 'Cadastro realizado com sucesso',
             'data' => UserTransformer::transform($user)
+        ], 201);
+    }
+
+    public function update(Request $request, string $uuid){
+        $user = $this->userRepository->findByUuid($uuid);
+
+        if(is_null($user)){
+            return $this->respJson([
+                'message' => 'Usuário não encontrado'
+            ], 422);
+        }
+
+        $data = $request->all();
+
+        $validate = $this->validate($data, [
+            'usuario' => 'required|string|max:20',
+            'nome' => 'required|string|max:255',
+            'email' => 'required|email',
+            'cpf' => 'required|string|max:14',
+            'telefone' => 'required|string|max:15',
+            'ativo' => 'max:1'
+        ]);
+
+        if(is_null($validate)){
+            return $this->respJson([
+                'message' => 'Dados inválidos',
+                'errors' => $this->getErrors()
+            ], 422);
+        }
+
+        $update = $this->userRepository->update($data, $user->id);
+
+        if(is_null($update)){
+            return $this->respJson([
+                'message' => 'Erro ao editar o usuário'
+            ], 500);
+        }
+        
+        return $this->respJson([
+            'message' => 'Sucesso ao atualizar o usuário',
+            'data' => UserTransformer::transform($update)
         ], 201);
     }
 
