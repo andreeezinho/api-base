@@ -165,4 +165,26 @@ class UserController extends Controller{
         ], 201);
     }
 
+    public function destroy(Request $request, $uuid){
+        $user = $this->userRepository->findByUuid($uuid);
+
+        if(is_null($user)){
+            return $this->respJson([
+                'message' => 'Usuário não encontrado'
+            ], 422);
+        }
+
+        $delete = $this->userRepository->delete($user->id);
+
+        if(!$delete){
+            return $this->respJson([
+                'message' => 'Erro ao excluir o usuário'
+            ], 500);
+        }
+
+        return $this->respJson([
+            'message' => 'Sucesso ao excluir usuário'
+        ], 201);
+    }
+
 }

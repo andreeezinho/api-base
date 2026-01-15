@@ -116,7 +116,17 @@ class UserRepository implements UserRepositoryInterface {
 
     public function updateSenha(array $data, int $id){}
 
-    public function delete(int $id){}
+    public function delete(int $id){
+        if(is_null($this->findById($id))){
+            return false;
+        }
+
+        try {
+            return $this->destroy($id);
+        } catch (\PDOException $e) {
+            return null;
+        }
+    }
 
     public function findUserByEmail(string $email){} 
 
