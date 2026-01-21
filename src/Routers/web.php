@@ -23,6 +23,7 @@ $router->create("GET", "/me", [$userController, 'profile'], $auth);
 $router->create("GET", "/usuarios", [$userController, 'index'], $auth);
 $router->create("POST", "/usuarios", [$userController, 'store'], $auth);
 $router->create("PUT", "/usuarios/{uuid}", [$userController, 'update'], $auth);
+$router->create("POST", "/usuarios/{uuid}/update-icon", [$userController, 'updateIcon']);
 $router->create("DELETE", "/usuarios/{uuid}", [$userController, 'destroy'], $auth);
 
 return $router;

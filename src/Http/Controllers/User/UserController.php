@@ -8,14 +8,17 @@ use App\Config\Auth;
 use App\Infra\Services\JWT\JWT;
 use App\Domain\Repositories\User\UserRepositoryInterface;
 use App\Http\Transformer\User\UserTransformer;
+use App\Infra\Services\File\FileService;
 
 class UserController extends Controller{
 
     protected $userRepository;
+    protected $fileService;
 
-    public function __construct(UserRepositoryInterface $userRepository){
+    public function __construct(UserRepositoryInterface $userRepository, FileService $fileService){
         parent::__construct();
         $this->userRepository = $userRepository;
+        $this->fileService = $fileService;
     }
 
     public function login(Request $request){
@@ -162,6 +165,50 @@ class UserController extends Controller{
         return $this->respJson([
             'message' => 'Sucesso ao atualizar o usuário',
             'data' => UserTransformer::transform($update)
+        ], 201);
+    }
+
+    public function updateIcon(Request $request, $uuid){
+        $user = $this->userRepository->findByUuid($uuid);
+
+        if(is_null($user)){
+            return $this->respJson([
+                'message' => 'Usuário não encontrado'
+            ], 422);
+        }
+
+        $data = $request->getFileParams();
+
+        $validate = $this->validate($data, [
+            'icone' => 'required'
+        ]);
+
+        if(is_null($validate)){
+            return $this->respJson([
+                'message' => 'Arquivo é obrigatório para continuar',
+                'errors' => $this->getErrors()
+            ], 422);
+        }
+
+        $saveIcon = $this->fileService->uploadFile($data['icone'], '/img/users');
+        
+        if(is_null($saveIcon)){
+            return $this->respJson([
+                'message' => 'Não foi possível salvar o arquivo'
+            ], 500);
+        }
+
+        $update = $this->userRepository->updateIcone(['icone' => $saveIcon['hash_name']], $user->id);
+
+        if(is_null($update)){
+            return $this->respJson([
+                'message' => 'Erro ao atualizar o icone'
+            ], 500);
+        }
+        
+        return $this->respJson([
+            'message' => 'Sucesso ao atualizar icone',
+            'data' => $saveIcon['hash_name']
         ], 201);
     }
 

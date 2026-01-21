@@ -7,3 +7,6 @@
 /.env
 
 /vendor/
+
+public/img/users/**
+!public/img/users/default.png

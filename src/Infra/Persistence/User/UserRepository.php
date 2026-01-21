@@ -112,7 +112,32 @@ class UserRepository implements UserRepositoryInterface {
         }
     }
 
-    public function updateIcone(int $id, array $icone, string $dir){}
+    public function updateIcone(array $data, int $id){
+        if(empty($data)){
+            return null;
+        }
+
+        $data = $this->model->create($data);
+
+        $user = $this->findById($id);
+
+        if(is_null($user)){
+            return null;
+        }
+        
+        try {
+            $update = $this->edit($data, $user);
+
+            if(!$update){
+                return null;
+            }
+
+            return $this->findById($id);;
+            
+        } catch (\Throwable $th) {
+            return $th;
+        }
+    }
 
     public function updateSenha(array $data, int $id){}
 

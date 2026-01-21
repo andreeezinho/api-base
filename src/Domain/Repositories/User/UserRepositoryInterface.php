@@ -12,7 +12,7 @@ interface UserRepositoryInterface {
 
     public function update(array $data, int $id);
 
-    public function updateIcone(int $id, array $icone, string $dir);
+    public function updateIcone(array $data, int $id);
 
     public function updateSenha(array $data, int $id);
 
