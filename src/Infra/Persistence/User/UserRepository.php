@@ -59,17 +59,15 @@ class UserRepository implements UserRepositoryInterface {
             return null;
         }
 
-        $user = $this->model->create($data);
-            
-        if(empty($user->senha)){
-            $user->senha = 'senha123';
+        if(empty($data['senha'])){
+            $data['senha'] = 'senha123';
         }
+
+        $user = $this->model->create($data);
 
         if(empty($user->icone)){
             $user->icone = 'default.png';
         }
-
-        $user->senha = password_hash($user->senha, PASSWORD_BCRYPT);
 
         try {
             $create = $this->save($user);
@@ -139,7 +137,32 @@ class UserRepository implements UserRepositoryInterface {
         }
     }
 
-    public function updateSenha(array $data, int $id){}
+    public function updateSenha(array $data, int $id){
+        if(empty($data)){
+            return null;
+        }
+
+        $data = $this->model->create($data);
+
+        $user = $this->findById($id);
+
+        if(is_null($user)){
+            return null;
+        }
+
+        try {
+            $update = $this->edit($data, $user);
+
+            if(!$update){
+                return null;
+            }
+
+            return $this->findById($id);;
+            
+        } catch (\Throwable $th) {
+            return $th;
+        }
+    }
 
     public function delete(int $id){
         if(is_null($this->findById($id))){

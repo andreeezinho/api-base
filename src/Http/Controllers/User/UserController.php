@@ -168,6 +168,41 @@ class UserController extends Controller{
         ], 201);
     }
 
+    public function updatePassword(Request $request, $uuid){
+        $user = $this->userRepository->findByUuid($uuid);
+
+        if(is_null($user)){
+            return $this->respJson([
+                'message' => 'Usuário não encontrado'
+            ], 422);
+        }
+
+        $data = $request->all();
+
+        $validate = $this->validate($data, [
+            'senha' => 'required|string|min:8'
+        ]);
+
+        if(is_null($validate)){
+            return $this->respJson([
+                'message' => 'Dados inválidos',
+                'errors' => $this->getErrors()
+            ], 422);
+        }
+
+        $update = $this->userRepository->updateSenha($data, $user->id);
+
+        if(is_null($update)){
+            return $this->respJson([
+                'message' => 'Erro ao atualizar senha'
+            ], 422);
+        }
+
+        return $this->respJson([
+            'message' => 'Sucesso ao atualizar senha'
+        ], 201);
+    }
+
     public function updateIcon(Request $request, $uuid){
         $user = $this->userRepository->findByUuid($uuid);
 
@@ -185,7 +220,7 @@ class UserController extends Controller{
 
         if(is_null($validate)){
             return $this->respJson([
-                'message' => 'Arquivo é obrigatório para continuar',
+                'message' => 'Dados inválidos',
                 'errors' => $this->getErrors()
             ], 422);
         }

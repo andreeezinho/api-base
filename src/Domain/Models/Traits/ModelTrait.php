@@ -7,6 +7,11 @@ trait ModelTrait {
     function setFields(array $data) : void {
         foreach($data as $key => $value){
             if(property_exists($this, $key)){
+                if($key === 'senha'){
+                    $this->$key = password_hash($value, PASSWORD_BCRYPT);
+                    continue;
+                }
+
                 $this->$key = $value ?? null;
             }
         }
