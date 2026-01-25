@@ -9,6 +9,7 @@ use App\Infra\Services\JWT\JWT;
 use App\Domain\Repositories\User\UserRepositoryInterface;
 use App\Http\Transformer\User\UserTransformer;
 use App\Infra\Services\File\FileService;
+use App\Infra\Services\Log\LogService;
 
 class UserController extends Controller{
 
@@ -50,6 +51,8 @@ class UserController extends Controller{
         $user = UserTransformer::transform($user);
 
         $token = JWT::generateToken((array)$user, 30600);
+        
+        LogService::logInfo("Usuário logado", ['uuid' => $user['uuid']]);
 
         return $this->respJson([
             'message' => 'Sucesos ao logar',

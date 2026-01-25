@@ -4,6 +4,8 @@
 *.swo
 *~
 
+/logs/app.log
+
 /.env
 
 /vendor/

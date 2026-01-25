@@ -7,6 +7,7 @@ use App\Domain\Models\User\User;
 use App\Domain\Repositories\User\UserRepositoryInterface;
 use App\Infra\Persistence\Traits\CrudTrait;
 use App\Infra\Persistence\Traits\FindTrait;
+use App\Infra\Services\Log\LogService;
 
 class UserRepository implements UserRepositoryInterface {
 
@@ -79,6 +80,7 @@ class UserRepository implements UserRepositoryInterface {
             return $this->findByUuid($user->uuid);
 
         } catch (\Throwable $th) {
+            LogService::logError($th->getMessage());
             return null;
         }
     }
@@ -106,7 +108,8 @@ class UserRepository implements UserRepositoryInterface {
             return $this->findById($id);;
             
         } catch (\Throwable $th) {
-            return $th;
+            LogService::logError($th->getMessage());
+            return null;
         }
     }
 
@@ -133,7 +136,8 @@ class UserRepository implements UserRepositoryInterface {
             return $this->findById($id);;
             
         } catch (\Throwable $th) {
-            return $th;
+            LogService::logError($th->getMessage());
+            return null;
         }
     }
 
@@ -160,7 +164,8 @@ class UserRepository implements UserRepositoryInterface {
             return $this->findById($id);;
             
         } catch (\Throwable $th) {
-            return $th;
+            LogService::logError($th->getMessage());
+            return null;
         }
     }
 
@@ -172,6 +177,7 @@ class UserRepository implements UserRepositoryInterface {
         try {
             return $this->destroy($id);
         } catch (\PDOException $e) {
+            LogService::logError($e->getMessage());
             return null;
         }
     }
