@@ -6,6 +6,7 @@ use App\Config\Container;
 use App\Config\DependencyProvider;
 
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Auth\AuthController;
 
 $router = new Router();
 $auth = new Auth();
@@ -13,13 +14,16 @@ $container = new Container();
 $dependencyProvider = new DependencyProvider($container);
 $dependencyProvider->register();
 
+$authController = $container->get(AuthController::class);
 $userController = $container->get(UserController::class);
 
 // - Rotas
 
+//autenticacao
+$router->create("POST", "/auth", [$authController, 'login']);
+$router->create("GET", "/me", [$authController, 'profile'], $auth);
+
 //usuarios
-$router->create("POST", "/auth", [$userController, 'login']);
-$router->create("GET", "/me", [$userController, 'profile'], $auth);
 $router->create("GET", "/usuarios", [$userController, 'index'], $auth);
 $router->create("POST", "/usuarios", [$userController, 'store'], $auth);
 $router->create("PUT", "/usuarios/{uuid}", [$userController, 'update'], $auth);

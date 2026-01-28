@@ -1,0 +1,89 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Http\Request\Request;
+use App\Infra\Services\JWT\JWT;
+use App\Domain\Repositories\User\UserRepositoryInterface;
+use App\Http\Transformer\User\UserTransformer;
+use App\Infra\Services\Log\LogService;
+use App\Infra\Services\Email\EmailService;
+
+class AuthController extends Controller {
+
+    protected $userRepository;
+    protected $fileService;
+    protected $emailService;
+
+    public function __construct(UserRepositoryInterface $userRepository, EmailService $emailService){
+        parent::__construct();
+        $this->userRepository = $userRepository;
+        $this->emailService = $emailService;
+    }
+
+    public function login(Request $request){
+        $data = $request->all();
+
+        $validate = $this->validate($data, [
+            'email' => 'required|email',
+            'senha' => 'required|string|min:8'
+        ]);
+
+        if(is_null($validate)){
+            return $this->respJson([
+                'message' => 'Dados inválidos',
+                'errors' => $this->getErrors()
+            ], 422);
+        }
+
+        $user = $this->userRepository->login(
+            $validate['email'], 
+            $validate['senha']
+        );
+
+        if(is_null($user)){
+            return $this->respJson([
+                'message' => 'Usuário ou senha inválido'  
+            ]);
+        }
+
+        $user = UserTransformer::transform($user);
+
+        $token = JWT::generateToken((array)$user, 30600);
+        
+        LogService::logInfo("Usuário logado", ['uuid' => $user['uuid']]);
+
+        return $this->respJson([
+            'message' => 'Sucesos ao logar',
+            'data' => $token
+        ]);
+    }
+
+    public function profile(Request $request){
+        $userData = $request->getHeaders('Authorization');
+
+        $userValidate = JWT::validateToken($userData);
+
+        if(is_null($userValidate)){
+            return $this->respJson([
+                'message' => 'Usuário não autenticado'
+            ], 401);
+        }
+
+        $user = $this->userRepository->findByUuid($userValidate['uuid']);
+
+        if(is_null($user)){
+            return $this->respJson([
+                'message' => 'Usuário não encontrado'
+            ], 404);
+        }
+
+        $user = UserTransformer::transform($user);
+
+        return $this->respJson([
+            'data' => $user
+        ]);
+    }
+
+}
