@@ -41,8 +41,11 @@ app
 
 ## Funcionalidades 
 
+- Autenticação e Segurança via JWT
 - Rotas dinâmicas e personalizadas
 - Sistema de logs personalizáveis
+- Upload dinâmico de arquivos
+- Sistema de notificação de email
 - Customização de variáveis de ambiente via `.env`
 
 ## Execução do Projeto
