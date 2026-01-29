@@ -91,3 +91,45 @@ senha: password
 ```bash
 php -S localhost:8888 -t ./
 ```
+
+## Endpoints
+O endpoint para fazer a autenticação com o usuário não necessita de validação de nenhum token, somente das suas credenciais
+
+**POST** `/auth`
+
+ - **Headers:** `""`
+ - **Resposta:** 
+    ```bash
+    {
+        "message": "Sucesso ao logar"
+        "data": {token}
+    }
+    ```
+
+### Endpoints Protegidos
+Todos os endpoints que são protegitos por autenticação necessitam de um token `Bearer` via JWT
+
+**GET** `/usuarios`
+
+ - **Headers:** `"Authorization: Bearer {token}"`
+ - **Resposta:** 
+    ```bash
+    {
+        "message": "Usuários listados"
+        "data": [
+            {
+                "uuid": "0661993e-7ae8-4146-8602-403f5edb92ea",
+                "usuario": "adm",
+                "nome": "Administrador André",
+                "email": "admin@admin.com",
+                "cpf": "111.222.333-44",
+                "telefone": "(75) 9988-7766",
+                "ativo": 1,
+                "is_admin": 0,
+                "icone": "69701adfcf4bd_1768954591.jpg",
+                "created_at": "2025-03-01 16:04:15",
+                "updated_at": "2026-01-20 21:16:31"
+            }
+        ]
+    }
+    ```

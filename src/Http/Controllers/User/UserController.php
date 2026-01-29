@@ -28,9 +28,10 @@ class UserController extends Controller {
         $params = $request->getQueryParams();
 
         $users = $this->userRepository->all($params);
-
+        
         return $this->respJson([
-            'users' => $users
+            'message' => "Usuários listados",
+            'data' => UserTransformer::transformArray($users)
         ]);
     }
 

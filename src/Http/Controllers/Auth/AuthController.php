@@ -55,7 +55,7 @@ class AuthController extends Controller {
         LogService::logInfo("Usuário logado", ['uuid' => $user['uuid']]);
 
         return $this->respJson([
-            'message' => 'Sucesos ao logar',
+            'message' => 'Sucesso ao logar',
             'data' => $token
         ]);
     }
