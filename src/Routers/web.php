@@ -27,8 +27,8 @@ $router->create("GET", "/me", [$authController, 'profile'], $auth);
 $router->create("GET", "/usuarios", [$userController, 'index'], $auth);
 $router->create("POST", "/usuarios", [$userController, 'store'], $auth);
 $router->create("PUT", "/usuarios/{uuid}", [$userController, 'update'], $auth);
-$router->create("PATCH", "/usuarios/{uuid}/password", [$userController, 'updatePassword']);
-$router->create("POST", "/usuarios/{uuid}/icon", [$userController, 'updateIcon']);
+$router->create("PATCH", "/usuarios/{uuid}/password", [$userController, 'updatePassword'], $auth);
+$router->create("POST", "/usuarios/{uuid}/icon", [$userController, 'updateIcon'], $auth);
 $router->create("DELETE", "/usuarios/{uuid}", [$userController, 'destroy'], $auth);
 
 return $router;
