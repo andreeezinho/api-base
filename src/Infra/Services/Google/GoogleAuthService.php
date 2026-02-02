@@ -20,7 +20,7 @@ class GoogleAuthService {
         $guzzleClient = new GuzzleClient(['curl' => [CURLOPT_SSL_VERIFYPEER => false]]);
         $this->client->setHttpClient($guzzleClient);
         $this->client->setAuthConfig(__DIR__ . '/../../../../' . $_ENV['GOOGLE_CREDENTIALS']);
-        $this->client->setRedirectUri('http://localhost:5173/teste');
+        $this->client->setRedirectUri($_ENV['GOOGLE_REDIRECT_URI']);
         $this->client->addScope('email');
         $this->client->addScope('profile');
     }
