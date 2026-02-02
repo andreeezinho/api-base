@@ -43,7 +43,7 @@ class UserController extends Controller {
             'nome' => 'required|string|max:255',
             'email' => 'required|email',
             'cpf' => 'required|string|max:14',
-            'telefone' => 'required|string|max:15',
+            'telefone' => 'string|max:15',
             'senha' => 'required|string|min:8',
             'ativo' => 'max:1'
         ]);
@@ -70,7 +70,7 @@ class UserController extends Controller {
     }
 
     public function update(Request $request, string $uuid){
-        $user = $this->userRepository->findByUuid($uuid);
+        $user = $this->userRepository->findBy('uuid', $uuid);
 
         if(is_null($user)){
             return $this->respJson([
@@ -111,7 +111,7 @@ class UserController extends Controller {
     }
 
     public function updatePassword(Request $request, $uuid){
-        $user = $this->userRepository->findByUuid($uuid);
+        $user = $this->userRepository->findBy('uuid', $uuid);
 
         if(is_null($user)){
             return $this->respJson([
@@ -146,7 +146,7 @@ class UserController extends Controller {
     }
 
     public function updateIcon(Request $request, $uuid){
-        $user = $this->userRepository->findByUuid($uuid);
+        $user = $this->userRepository->findBy('uuid', $uuid);
 
         if(is_null($user)){
             return $this->respJson([
@@ -190,7 +190,7 @@ class UserController extends Controller {
     }
 
     public function destroy(Request $request, $uuid){
-        $user = $this->userRepository->findByUuid($uuid);
+        $user = $this->userRepository->findBy('uuid', $uuid);
 
         if(is_null($user)){
             return $this->respJson([

@@ -77,7 +77,7 @@ class UserRepository implements UserRepositoryInterface {
                 return null;
             }
 
-            return $this->findByUuid($user->uuid);
+            return $this->findBy('uuid', $user->uuid);
 
         } catch (\Throwable $th) {
             LogService::logError($th->getMessage());
@@ -92,7 +92,7 @@ class UserRepository implements UserRepositoryInterface {
 
         $data = $this->model->create($data);
 
-        $user = $this->findById($id);
+        $user = $this->findBy('id', $id);
 
         if(is_null($user)){
             return null;
@@ -105,7 +105,7 @@ class UserRepository implements UserRepositoryInterface {
                 return null;
             }
 
-            return $this->findById($id);;
+            return $this->findBy('id', $id);;
             
         } catch (\Throwable $th) {
             LogService::logError($th->getMessage());
@@ -120,7 +120,7 @@ class UserRepository implements UserRepositoryInterface {
 
         $data = $this->model->create($data);
 
-        $user = $this->findById($id);
+        $user = $this->findBy('id', $id);
 
         if(is_null($user)){
             return null;
@@ -133,7 +133,7 @@ class UserRepository implements UserRepositoryInterface {
                 return null;
             }
 
-            return $this->findById($id);;
+            return $this->findBy('id', $id);;
             
         } catch (\Throwable $th) {
             LogService::logError($th->getMessage());
@@ -148,7 +148,7 @@ class UserRepository implements UserRepositoryInterface {
 
         $data = $this->model->create($data);
 
-        $user = $this->findById($id);
+        $user = $this->findBy('id', $id);
 
         if(is_null($user)){
             return null;
@@ -161,7 +161,7 @@ class UserRepository implements UserRepositoryInterface {
                 return null;
             }
 
-            return $this->findById($id);;
+            return $this->findBy('id', $id);;
             
         } catch (\Throwable $th) {
             LogService::logError($th->getMessage());
@@ -170,7 +170,7 @@ class UserRepository implements UserRepositoryInterface {
     }
 
     public function delete(int $id){
-        if(is_null($this->findById($id))){
+        if(is_null($this->findBy('id', $id))){
             return false;
         }
 

@@ -18,10 +18,6 @@ interface UserRepositoryInterface {
 
     public function delete(int $id);
 
-    public function findUserByEmail(string $email);
-
-    public function findById(int $id);
-
-    public function findByUuid(string $uuid);
+    public function findBy(string $field, mixed $value);
 
 }
