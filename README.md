@@ -158,7 +158,7 @@ Para autenticação via Google, existem dois endpoints que são necessários:
         "data": "https://link-do-google-auth"
     }
     ```
-Esse endpoint gera o link para a tela de login do google e redirecionar para o endpoint definido em `.env` `GOOGLE_REDIRECT_URI=''`
+Esse endpoint gera o link para a tela de login do google e redireciona para o endpoint definido em `.env` `GOOGLE_REDIRECT_URI=''`
 
 Ao redirecionar para o local desejado, ele insere um código como parâmetro na URI `http://localhost:5173?code=codigo_que_ira_aparecer`
 
