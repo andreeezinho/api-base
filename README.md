@@ -140,7 +140,7 @@ Todos os endpoints que são protegitos por autenticação necessitam de um token
     }
     ```
 
-## Autenticação com Google OAuth2 ![Google](https://skillicons.dev)
+## Autenticação com Google via OAuth2 ![Google]
 
 Para autenticação via Google, existem dois endpoints que são necessários:
 
