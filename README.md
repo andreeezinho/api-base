@@ -140,7 +140,9 @@ Todos os endpoints que são protegitos por autenticação necessitam de um token
     }
     ```
 
-## Autenticação com Google via OAuth2 ![Google]
+## Autenticação com Google via OAuth2
+
+Antes de começar é necessário criar uma [credencial](https://support.google.com/workspacemigrate/answer/9222992?hl=PT) JSON, inserir na diretório do projeto e o nome em `.env` `GOOGLE_CREDENTIALS=''`
 
 Para autenticação via Google, existem dois endpoints que são necessários:
 
@@ -155,7 +157,7 @@ Para autenticação via Google, existem dois endpoints que são necessários:
         "data": "https://link-do-google-auth"
     }
     ```
-Esse endpoint gera o link para a tela de login do google e redirecionar para o endpoint definido em `.env` `GOOGLE_REDIRECT_URI`
+Esse endpoint gera o link para a tela de login do google e redirecionar para o endpoint definido em `.env` `GOOGLE_REDIRECT_URI=''`
 
 Ao redirecionar para o local desejado, ele insere um código como parâmetro na URI `http://localhost:5173?code=codigo_que_ira_aparecer`
 
