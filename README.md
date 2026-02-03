@@ -8,6 +8,7 @@ O projeto busca implementar tecnologias e padrões que garantem a organização,
 - PHP 8.3
 - Organização de Rotas Personalizadas
 - Autenticação via JWT
+- Autenticação via OAuth2 (Google API)
 - Composer
 - DDD
 - Clean Architecture
@@ -42,6 +43,7 @@ app
 ## Funcionalidades 
 
 - Autenticação e Segurança via JWT
+- Autenticação com OAuth2 (Google API)
 - Rotas dinâmicas e personalizadas
 - Sistema de logs personalizáveis
 - Upload dinâmico de arquivos
@@ -63,6 +65,7 @@ Insira os valores de acordo com o seus dados
 ```bash
 SITE_NAME='nome-api'
 API_URL='http://localhost:8888'
+PERMITTED_HOST='*' #host permitido para utilizar a API, use * para liberar para todos (não recomendado) ou o ip correto do front-end (ex: http://localhost:5173)
 
 DB_HOST='local-database'
 DB_NAME='nome-database'
@@ -70,6 +73,9 @@ DB_USER='user-database'
 DB_PASSWORD='senha-database'
 
 JWT_SECRET='senha-jwt' ## Senha para personalizar o token JWT
+
+GOOGLE_CREDENTIALS= 'nome_dor_arquivo_credenciais.json' #nome do arquivo json das credenciais para autenticação com google
+GOOGLE_REDIRECT_URI='http://localhost:5173' #url para o redirecionamento após o login com o google
 
 EMAIL = 'seuemail@gmail.com' 
 EMAIL_CODE = 'gfte esjt eqes qhmm'; ## Senha do SMTP que precisa cadastrar
@@ -133,3 +139,40 @@ Todos os endpoints que são protegitos por autenticação necessitam de um token
         ]
     }
     ```
+
+## Autenticação com Google OAuth2 ![Google](https://skillicons.dev)
+
+Para autenticação via Google, existem dois endpoints que são necessários:
+
+1:
+**GET** `/google-link`
+
+ - **Headers:** `""`
+ - **Resposta:** 
+    ```bash
+    {
+        "message": "Sucesso ao gerar link",
+        "data": "https://link-do-google-auth"
+    }
+    ```
+Esse endpoint gera o link para a tela de login do google e redirecionar para o endpoint definido em `.env` `GOOGLE_REDIRECT_URI`
+
+Ao redirecionar para o local desejado, ele insere um código como parâmetro na URI `http://localhost:5173?code=codigo_que_ira_aparecer`
+
+2:
+
+É necessário passar o código para esse endpoint como `code`
+**POST** `/google-auth`
+
+ - **Headers:** `""`
+ - **Resposta:** 
+    ```bash
+    {
+        "message": "Sucesso ao logar com o Google",
+        "data": {token}
+    }
+    ```
+
+O endpoint acessa a API do Google para verificar o código e retornar os dados do usuário.
+
+Se o usuário já estiver cadastro, ele gera o token JWT. Se não, ele cadastra o usuário no database e depois retorna o token.
