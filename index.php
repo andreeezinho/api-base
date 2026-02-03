@@ -7,6 +7,10 @@
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
 
+    use App\Http\Middlewares\CorsMiddleware;
+
+    CorsMiddleware::handle();
+
     $router = require 'src/Routers/web.php';
 
     $router->init();

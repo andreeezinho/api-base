@@ -15,7 +15,7 @@ class User {
     public string $usuario;
     public string $nome;
     public string $email;
-    public string $cpf;
+    public ?string $cpf;
     public ?string $telefone;
     public ?string $senha;
     // public string $funcao;

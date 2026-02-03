@@ -12,3 +12,5 @@
 
 public/img/users/**
 !public/img/users/default.png
+
+/googleauthcredentials.json

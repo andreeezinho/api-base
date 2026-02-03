@@ -21,6 +21,8 @@ $userController = $container->get(UserController::class);
 
 //autenticacao
 $router->create("POST", "/auth", [$authController, 'login']);
+$router->create("POST", "/google-auth", [$authController, 'loginWithGoogle']);
+$router->create("GET", "/google-link", [$authController, 'generateGoogleAuthLink']);
 $router->create("GET", "/me", [$authController, 'profile'], $auth);
 
 //usuarios
