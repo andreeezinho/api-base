@@ -147,6 +147,7 @@ Antes de começar é necessário criar uma [credencial](https://support.google.c
 Para autenticação via Google, existem dois endpoints que são necessários:
 
 1:
+
 **GET** `/google-link`
 
  - **Headers:** `""`
@@ -164,6 +165,7 @@ Ao redirecionar para o local desejado, ele insere um código como parâmetro na 
 2:
 
 É necessário passar o código para esse endpoint como `code`
+
 **POST** `/google-auth`
 
  - **Headers:** `""`
