@@ -182,6 +182,4 @@ class UserRepository implements UserRepositoryInterface {
         }
     }
 
-    public function findUserByEmail(string $email){} 
-
 }
