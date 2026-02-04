@@ -56,6 +56,8 @@ class AuthController extends Controller {
         $token = JWT::generateToken((array)$user, 30600);
         
         LogService::logInfo("Usuário logado", ['uuid' => $user['uuid']]);
+        
+        $this->emailService->sendPasswordReset($user['email'], $user['usuario'], 123456, '12:30:00');
 
         return $this->respJson([
             'message' => 'Sucesso ao logar',

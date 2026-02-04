@@ -2,14 +2,18 @@
 
 namespace App\Infra\Services\Email;
 
+use App\Infra\Services\Email\Templates\TemplateRenderer;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use App\Infra\Services\Log\LogService;
 
 class EmailService {
 
     private $mail;
+    private $templateRender;
 
-    public function __construct(){
+    public function __construct(TemplateRenderer $templateRender){
+        $this->templateRender = $templateRender;
         $this->mail = new PHPMailer(true);
         $this->mail->isSMTP();
         $this->mail->Host = 'smtp.gmail.com';
@@ -22,20 +26,38 @@ class EmailService {
         $this->mail->setFrom($this->mail->Username, $_ENV['SITE_NAME']);
     }
 
-    public function send(array $data){
+    public function sendPasswordReset(string $email, string $user, int $code, string $expirationTime) : bool {
+        $subject = 'Redefinição de Senha';
+        
+        $data = [
+            'user' => $user,
+            'code' => $code,
+            'expiration_time' => $expirationTime
+        ];
+
+        $body = $this->templateRender->renderResetPasswordTemplate($data);
+
+        return $this->send($email, $subject, $body, $user);
+    }
+
+    public function send(string $to, string $subject, string $body, ?string $toName) : bool {
         try{
-            $this->mail->Subject = $data['subject'];
 
-            $this->mail->addAddress($data['user_email'], $data['user_name']);
+            $this->mail->addAddress($to, $toName ?? $to);
 
-            $this->mail->Body = $data['email_text'];
+            $this->mail->Subject = $subject;
+
+            $this->mail->isHTML(true);
+
+            $this->mail->Body = $body;
 
             $this->mail->send();
 
             return true;
 
         }catch(Exception $e){
-            return $e;
+            LogService::logError($e->getMessage());
+            return false;
         }
     }
 
