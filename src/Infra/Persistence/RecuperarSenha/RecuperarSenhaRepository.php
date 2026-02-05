@@ -45,6 +45,20 @@ class RecuperarSenhaRepository implements RecuperarSenhaRepositoryInterface {
             return null;
         }
     }
+
+    public function verifyCode(int $code, int $usuarios_id) : bool {
+        $find = $this->findBy('usuarios_id', $usuarios_id);
+
+        if(time() > $find->expires_at){
+            return false;
+        }
+
+        if($code !== $find->codigo){
+            return false;
+        }
+
+        return true;
+    }
     
     public function delete(int $id){
         if(is_null($this->findBy('id', $id))){

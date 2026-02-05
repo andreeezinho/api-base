@@ -4,6 +4,8 @@ namespace App\Config;
 
 use App\Domain\Repositories\User\UserRepositoryInterface;
 use App\Infra\Persistence\User\UserRepository;
+use App\Domain\Repositories\RecuperarSenha\RecuperarSenhaRepositoryInterface;
+use App\Infra\Persistence\RecuperarSenha\RecuperarSenhaRepository;
 
 class DependencyProvider {
 
@@ -19,6 +21,12 @@ class DependencyProvider {
             ->set(
                 UserRepositoryInterface::class,
                 new UserRepository()
+            );
+
+        $this->container
+            ->set(
+                RecuperarSenhaRepositoryInterface::class,
+                new RecuperarSenhaRepository()
             );
 
     }
