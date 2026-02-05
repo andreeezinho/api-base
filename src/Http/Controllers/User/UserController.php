@@ -4,7 +4,6 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Request\Request;
-use App\Infra\Services\JWT\JWT;
 use App\Domain\Repositories\User\UserRepositoryInterface;
 use App\Http\Transformer\User\UserTransformer;
 use App\Infra\Services\File\FileService;

@@ -4,10 +4,8 @@ namespace App\Http\Controllers\RecuperarSenha;
 
 use App\Http\Controllers\Controller;
 use App\Http\Request\Request;
-use App\Infra\Services\JWT\JWT;
 use App\Domain\Repositories\RecuperarSenha\RecuperarSenhaRepositoryInterface;
 use App\Domain\Repositories\User\UserRepositoryInterface;
-use App\Http\Transformer\RecuperarSenha\RecuperarSenhaTransformer;
 use App\Infra\Services\Log\LogService;
 use App\Infra\Services\Email\EmailService;
 
