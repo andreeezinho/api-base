@@ -49,7 +49,7 @@ class RecuperarSenhaRepository implements RecuperarSenhaRepositoryInterface {
     public function verifyCode(int $code, int $usuarios_id) : bool {
         $find = $this->findBy('usuarios_id', $usuarios_id);
 
-        if(time() > $find->expires_at){
+        if(time() > strtotime($find->expires_at)){
             return false;
         }
 

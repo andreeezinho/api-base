@@ -32,7 +32,7 @@ class EmailService {
         $data = [
             'user' => $user,
             'code' => $code,
-            'expiration_time' => $expirationTime
+            'expiration_time' => date('d/m/Y H:i:s', strtotime($expirationTime))
         ];
 
         $body = $this->templateRender->renderResetPasswordTemplate($data);
