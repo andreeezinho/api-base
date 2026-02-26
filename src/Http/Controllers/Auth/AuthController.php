@@ -47,7 +47,7 @@ class AuthController extends Controller {
 
         if(is_null($user)){
             return $this->respJson([
-                'message' => 'Usuário ou senha inválido'  
+                'message' => 'Email ou senha inválido'  
             ]);
         }
 
